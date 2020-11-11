@@ -1,0 +1,28 @@
+{% extends 'index/layout.html' %}
+{% block body %}
+<div class="container">
+    <form class="box box-shadow text-dark margin-top-bottom" action = "{% url 'register' %}" method = "POST">
+        <h1 class="box-title">Register user</h1>
+        {% csrf_token %}
+        <div class="form-group">
+            <p class="form-label">Username:</p>
+            <input type="text" class="form-control" name="username">
+        </div>
+        <div class="form-group">
+            <p class="form-label">Email:</p>
+            <input type="emsil" class="form-control" name="email">
+        </div>
+        <div class="form-group">
+            <p class="form-label">Password:</p>
+            <input type="password" class="form-control" name="password">
+        </div>
+        <div class="form-group">
+            <p class="form-label">Password confirmation:</p>
+            <input type="password" class="form-control" name="confirmation">
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-dark form-control" value = "Register">
+        </div>
+    </form>
+</div>
+{% endblock %}
