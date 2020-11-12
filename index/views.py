@@ -5,6 +5,7 @@ from django.urls import reverse
 from django.db import IntegrityError
 from .models import User
 
+#Home page
 def index(request):
     return render(request, "index/index.html")
 
@@ -16,6 +17,7 @@ def login_view(request):
         username = request.POST["username"].lower()
         password = request.POST["password"]
         user = authenticate(request, username = username, password = password)
+        # if user authentication success
         if user is not None:
             login(request, user)
             return HttpResponseRedirect(reverse('index'))

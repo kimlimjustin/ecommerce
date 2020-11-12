@@ -1,0 +1,63 @@
+.top-nav{
+    overflow: hidden;
+}
+
+.top-nav a{
+    float: left;
+    color: #000000;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.top-nav a:hover{
+    opacity: .5;
+}
+
+.topnav-right{
+    float: right;
+}
+
+.nav-effect{box-shadow: 0 2px 30px -2px rgba(0,0,0,.2);}
+
+.link{
+    cursor: pointer;
+}
+.nav-pp{
+    width: 20px;
+}
+
+.nav-pp-alt{
+    display: none;
+    cursor: pointer;
+}
+
+.nav-ham{
+    display: none !important;
+}
+
+.nav-home{
+    font-weight: bold;
+    font-family: "Poppins";
+}
+
+@media only screen and (max-width: 768px){
+    .nav-pp-alt{
+        display: block;
+    }
+    .nav-pp{
+        display: none;
+    }
+    .nav-ham{
+        display: block !important;
+        position: absolute;
+        right: 10px;
+        top: 10px;
+    }
+    #nav-list{
+        display: none;
+    }
+    #nav-list a{
+        width: 100vw;
+    }
+}
