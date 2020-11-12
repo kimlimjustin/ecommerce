@@ -1,3 +1,8 @@
+@import url("https://fonts.googleapis.com/css?family=Permanent+Marker");
+.form-error{
+    font-family: "Permanent Marker";
+    font-weight: bold;
+}
 .top-nav{
     overflow: hidden;
 }
@@ -40,6 +45,9 @@
     font-weight: bold;
     font-family: "Poppins";
 }
+.input-username{
+    text-transform: lowercase;
+}
 
 @media only screen and (max-width: 768px){
     .nav-pp-alt{
@@ -51,8 +59,8 @@
     .nav-ham{
         display: block !important;
         position: absolute;
-        right: 10px;
-        top: 10px;
+        right: 1rem;
+        top: 1rem;
     }
     #nav-list{
         display: none;

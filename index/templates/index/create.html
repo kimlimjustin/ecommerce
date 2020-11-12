@@ -1,0 +1,32 @@
+{% extends 'index/layout.html' %}
+{% block body %}
+<div class="container">
+    <form class="margin-top-bottom box box-shadow" method="POST" enctype="multipart/form-data" action = "{% url 'sell_item' %}">
+        {% csrf_token %}
+        {% if message %}
+        <div class="form-group">
+            <p class="form-error text-danger">{{message}}</p>
+        </div>
+        {% endif %}
+        <div class="form-group">
+            <p class="form-label">Image:</p>
+            <input type="file" class="form-control" name="image" accept="image/*" id="file" required>
+        </div>
+        <div class="form-group">
+            <p class="form-label">Title:</p>
+            <input type="text" class="form-control" name="item-name" required>
+        </div>
+        <div class="form-group">
+            <p class="form-label">Description:</p>
+            <textarea class="form-control" name="item-description" rows="5" required></textarea>
+        </div>
+        <div class="form-group">
+            <p class="form-label">Price:</p>
+            <input type="number" class="form-control" min="1" name="price">
+        </div>
+        <div class="form-group">
+            <input type="submit" class="form-control btn btn-dark">
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -21,10 +21,11 @@
                     {# showing login and register if the user is not logged in #}
                     <div id="nav-list">
                         {% if not user.is_authenticated %}
-                            <a class="link" href = "{% url 'register' %}"><img src = "{% static 'Icon/Login.png' %}" class="nav-pp"><span class="nav-pp-alt">Login</span></a>
+                            <a class="link" href = "{% url 'register' %}"><img src = "{% static 'Icon/Login.png' %}" class="nav-pp" title="Login" alt="Login icon"><span class="nav-pp-alt">Login</span></a>
                         {% else %}
-                            <a class="link" href ="{% url 'logout' %}"><img src = "{% static 'Icon/Logout.jpg' %}" class="nav-pp"><span class="nav-pp-alt">Logout</span></a>
+                            <a class="link" href ="{% url 'logout' %}"><img src = "{% static 'Icon/Logout.jpg' %}" class="nav-pp" title="Logout" alt="Logout icon"><span class="nav-pp-alt">Logout</span></a>
                         {% endif %}
+                        <a class="link" href="{% url 'sell_item' %}"><img src = "{% static 'Icon/add.png' %}" class="nav-pp" title = "Sell items" alt = "Sell items icon"><span class="nav-pp-alt">Sell items</span></a>
                     </div>
                 </div>
             </div>

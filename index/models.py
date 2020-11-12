@@ -4,3 +4,13 @@ from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser, models.Model):
     email = models.EmailField(unique = True)
+
+class Items(models.Model):
+    seller = models.ForeignKey(User, on_delete = models.CASCADE, related_name = "seller")
+    name = models.CharField(max_length = 200)
+    description = models.CharField(max_length = 5000)
+    createdAt = models.DateTimeField(auto_now_add=True)
+    updatedAt = models.DateTimeField(auto_now = True)
+    price = models.IntegerField()
+    likes = models.ManyToManyField(User, related_name = "liker")
+    image = models.ImageField(upload_to= 'item_image/%Y/%B/%d/')

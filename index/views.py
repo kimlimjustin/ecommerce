@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.db import IntegrityError
-from .models import User
+from .models import User, Items
 
 #Home page
 def index(request):
@@ -58,3 +58,19 @@ def logout_view(request):
     #Logout the user
     logout(request)
     return HttpResponseRedirect(reverse('index'))
+
+def sell_item(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('login'))
+    if request.method == "POST":
+        name = request.POST["item-name"]
+        description = request.POST["item-description"]
+        image = request.FILES["image"]
+        price = int(request.POST["price"])
+        if price < 0:
+            return render(request, "index/create.html", {
+                "message": "Invalid price"
+            })
+        item = Items(name = name, description = description, image = image, seller = request.user, price = price)
+        item.save()
+    return render(request, "index/create.html")

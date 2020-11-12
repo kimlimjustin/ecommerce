@@ -1,4 +1,6 @@
 {% extends 'index/layout.html' %}
+{# change title #}
+{% block title %}Login | ecommerce{% endblock %}
 {% block body %}
 <div class="container">
     <form class="box box-shadow text-dark margin-top-bottom" action = "{% url 'login' %}" method = "POST">
@@ -6,16 +8,16 @@
         {% csrf_token %}
         {% if message %}
         <div class="form-group">
-            <p class="form-label text-danger">{{message}}</p>
+            <p class="form-error text-danger">{{message}}</p>
         </div>
         {% endif %}
         <div class="form-group">
             <p class="form-label">Username:</p>
-            <input type="text" class="form-control" name="username">
+            <input type="text" class="form-control input-username" name="username" required>
         </div>
         <div class="form-group">
             <p class="form-label">Password:</p>
-            <input type="password" class="form-control" name="password">
+            <input type="password" class="form-control" name="password" required>
         </div>
         <div class="form-group">
             <p class="form-label">Don't have account yet? <a class="link" href = "{% url 'register' %}">Register</a></p>
