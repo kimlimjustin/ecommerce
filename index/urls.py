@@ -10,7 +10,12 @@ urlpatterns = [
      path('i/<int:id>', views.item, name="item"),
      path('i/<int:id>/edit', views.edit_item, name="edit_item"),
      path('i/<int:id>/delete', views.delete_item, name="delete_item"),
+     path('cart', views.cart, name="cart"),
+     #API
      path('like', views.like, name="like"),
      path('unlike', views.unlike, name="unlike"),
+     path('cart/add', views.add_to_cart, name="add_to_cart"),
+     path('cart/remove', views.remove_from_cart, name="remove_from_cart"),
+     #Error handling
      path('404', views.FourZeroFour, name="404")
 ]

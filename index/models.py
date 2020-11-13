@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser
 # Create your models here.
 
 class User(AbstractUser, models.Model):
-    email = models.EmailField(unique = True)
+    cart = models.ManyToManyField("index.Items", related_name = "cart")
 
 class Items(models.Model):
     seller = models.ForeignKey(User, on_delete = models.CASCADE, related_name = "seller")

@@ -88,10 +88,12 @@ def item(request, id):
     else: item = item[0]
     liked = item.likes.filter(pk = request.user.pk).count() > 0
     total_like = item.likes.all().count()
+    saved = request.user.cart.filter(pk = item.pk).count() > 0
     return render(request, "index/item.html", {
         "item": item,
         "liked": liked,
-        "total_like": total_like
+        "total_like": total_like,
+        "saved": saved
         })
 
 def edit_item(request, id):
@@ -167,6 +169,39 @@ def unlike(request):
         item.save()
         return JsonResponse({"message": "Success"})
 
+def cart(request):
+    return render(request, "index/cart.html")
+
+def add_to_cart(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('login'))
+    data = json.loads(request.body)
+    item = Items.objects.filter(id = data["id"])
+    if item.count() == 0:
+        #404 Item not found.
+        return HttpResponseRedirect(reverse('404'))
+    else: item = item[0]
+    if request.method == "POST":
+        user = User.objects.get(pk = request.user.pk)
+        user.cart.add(item)
+        user.save()
+        return JsonResponse({"message": "Success"})
+
+def remove_from_cart(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('login'))
+    data = json.loads(request.body)
+    item = Items.objects.filter(id = data["id"])
+    if item.count() == 0:
+        #404 Item not found.
+        return HttpResponseRedirect(reverse('404'))
+    else: item = item[0]
+    if request.method == "POST":
+        user = User.objects.get(pk = request.user.pk)
+        user.cart.remove(item)
+        user.save()
+        return JsonResponse({"message": "Success"})
+        
 #Error 404 page
 def FourZeroFour(request):
     return render(request, "error/404.html")
