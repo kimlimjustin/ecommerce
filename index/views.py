@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.db import IntegrityError
 from .models import User, Items
+import json
 
 #Home page
 def index(request):
@@ -85,8 +86,12 @@ def item(request, id):
         #404 Item not found.
         return HttpResponseRedirect(reverse('404'))
     else: item = item[0]
+    liked = item.likes.filter(pk = request.user.pk).count() > 0
+    total_like = item.likes.all().count()
     return render(request, "index/item.html", {
-        "item": item
+        "item": item,
+        "liked": liked,
+        "total_like": total_like
         })
 
 def edit_item(request, id):
@@ -128,6 +133,39 @@ def delete_item(request, id):
         if request.method == "POST":
             item.delete()
             return HttpResponseRedirect(reverse('index'))
+
+# Like api
+def like(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('login'))
+    data = json.loads(request.body)
+    item = Items.objects.filter(id = data["id"])
+    if item.count() == 0:
+        #404 Item not found.
+        return HttpResponseRedirect(reverse('404'))
+    else: item = item[0]
+    if request.method == "POST":
+        liked = item.likes.filter(pk = request.user.pk).count() > 0
+        #Check if the user liked it
+        if not liked:
+            item.likes.add(request.user)
+            item.save()
+        return JsonResponse({"message": "Success"})
+
+# Unlike api
+def unlike(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('login'))
+    data = json.loads(request.body)
+    item = Items.objects.filter(id = data["id"])
+    if item.count() == 0:
+        #404 Item not found.
+        return HttpResponseRedirect(reverse('404'))
+    else: item = item[0]
+    if request.method == "POST":
+        item.likes.remove(request.user)
+        item.save()
+        return JsonResponse({"message": "Success"})
 
 #Error 404 page
 def FourZeroFour(request):

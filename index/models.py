@@ -12,5 +12,5 @@ class Items(models.Model):
     createdAt = models.DateTimeField(auto_now_add=True)
     updatedAt = models.DateTimeField(auto_now = True)
     price = models.IntegerField()
-    likes = models.ManyToManyField(User, related_name = "liker")
+    likes = models.ManyToManyField(User, related_name= "likes")
     image = models.ImageField(upload_to= 'item_image/%Y/%B/%d/')

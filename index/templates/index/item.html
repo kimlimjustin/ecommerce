@@ -2,13 +2,21 @@
 {% load static %}
 {% block script %}
 <script src="{% static 'index/item.js' %}" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
 {% endblock %}
 {% block body %}
 <div class="item-container">
     <div class="margin-top-bottom row box box-shadow">
         <h1 class="box-title">{{item.name}}</h1>
+        <span class="hidden" id="item-id">{{item.id}}</span>
         <a href="{{item.image.url}}"><img src = "{{item.image.url}}" class="item-image"></a>    
         <div class="item-info">
+            {% if liked %}
+            <img src = "{% static 'Icon/loved.png' %}" class="item-option" id="love-icon">
+            {% else %}
+            <img src = "{% static 'Icon/love.png' %}" class="item-option" id="love-icon"> 
+            {% endif %}
+            <h4><span id="total_like">{{total_like}}</span> {% if total_like < 2 %}like{% else %}likes{% endif %}</h4>
             <h3>${{item.price}}</h3>
             <p class="box-text">{{item.description}}</p>
             <h4><a class="link" href="{% url 'edit_item' item.id %}">Edit item</a></h4>
