@@ -67,10 +67,27 @@ def sell_item(request):
         description = request.POST["item-description"]
         image = request.FILES["image"]
         price = int(request.POST["price"])
+        #if user send negative price
         if price < 0:
             return render(request, "index/create.html", {
                 "message": "Invalid price"
             })
+            #save the item
         item = Items(name = name, description = description, image = image, seller = request.user, price = price)
         item.save()
+        #redirect to the product page
+        return HttpResponseRedirect(reverse('item', args = [item.pk]))
     return render(request, "index/create.html")
+
+def item(request, id):
+    item = Items.objects.filter(id = id)
+    if item.count() == 0:
+        #404 Item not found.
+        return HttpResponseRedirect(reverse('404'))
+    else: item = item[0]
+    return render(request, "index/item.html", {
+        "item": item
+        })
+
+def FourZeroFour(request):
+    return render(request, "error/404.html")

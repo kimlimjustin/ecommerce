@@ -1,0 +1,13 @@
+{% extends 'index/layout.html' %}
+{% block body %}
+<div class="item-container">
+    <div class="margin-top-bottom row box box-shadow">
+        <h1 class="box-title">{{item.name}}</h1>
+        <a href="{{item.image.url}}"><img src = "{{item.image.url}}" class="item-image"></a>    
+        <div class="item-info">
+            <p class="box-text">{{item.description}}</p>
+            <p class="timestamp">{{item.createdAt}}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
