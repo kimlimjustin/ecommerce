@@ -1,11 +1,21 @@
 {% extends 'index/layout.html' %}
+{% load static %}
+{% block script %}
+<script src="{% static 'index/item.js' %}" defer></script>
+{% endblock %}
 {% block body %}
 <div class="item-container">
     <div class="margin-top-bottom row box box-shadow">
         <h1 class="box-title">{{item.name}}</h1>
         <a href="{{item.image.url}}"><img src = "{{item.image.url}}" class="item-image"></a>    
         <div class="item-info">
+            <h3>${{item.price}}</h3>
             <p class="box-text">{{item.description}}</p>
+            <h4><a class="link" href="{% url 'edit_item' item.id %}">Edit item</a></h4>
+            <form action = "{% url 'delete_item' item.id %}" id="delete_form" method ="POST">
+                {% csrf_token %}
+                <h4 id="delete_form_submit"><a class="link text-danger" href="javascript:void(0)">Delete</a></h4>
+            </form>
             <p class="timestamp">{{item.createdAt}}</p>
         </div>
     </div>

@@ -8,5 +8,7 @@ urlpatterns = [
      path('register', views.register, name="register"),
      path('create', views.sell_item, name="sell_item"),
      path('i/<int:id>', views.item, name="item"),
+     path('i/<int:id>/edit', views.edit_item, name="edit_item"),
+     path('i/<int:id>/delete', views.delete_item, name="delete_item"),
      path('404', views.FourZeroFour, name="404")
 ]

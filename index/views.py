@@ -89,5 +89,46 @@ def item(request, id):
         "item": item
         })
 
+def edit_item(request, id):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('login'))
+    item = Items.objects.filter(id = id)
+    if item.count() == 0:
+        #404 Item not found.
+        return HttpResponseRedirect(reverse('404'))
+    else: item = item[0]
+    if request.method == "POST":
+        item.image.delete()
+        item.image = request.FILES["image"]
+        item.name = request.POST["item-name"]
+        item.description = request.POST["item-description"]
+        item.price = request.POST["price"]
+        item.save()
+        return HttpResponseRedirect(reverse('item', args = [item.pk]))
+    # Check if seller is the user
+    if item.seller != request.user:
+        return HttpResponse(status = 403)
+    else:
+        return render(request, "index/edit_item.html", {
+            "item": item
+        })
+
+def delete_item(request, id):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('login'))
+    item = Items.objects.filter(id = id)
+    if item.count() == 0:
+        #404 Item not found.
+        return HttpResponseRedirect(reverse('404'))
+    else: item = item[0]
+    if item.seller != request.user:
+        return HttpResponse(status = 403)
+    else:
+        print(request.method)
+        if request.method == "POST":
+            item.delete()
+            return HttpResponseRedirect(reverse('index'))
+
+#Error 404 page
 def FourZeroFour(request):
     return render(request, "error/404.html")
