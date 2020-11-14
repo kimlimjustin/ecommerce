@@ -8,7 +8,7 @@ import json
 
 #Home page
 def index(request):
-    items = Items.objects.all().order_by('-id')[:10]
+    items = Items.objects.all().order_by('-id')
     return render(request, "index/index.html", {
         "items": items
     })
