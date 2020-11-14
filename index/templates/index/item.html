@@ -35,7 +35,7 @@
                 <h4 id="delete_form_submit"><a class="link text-danger" href="javascript:void(0)">Delete</a></h4>
             </form>
             {% endif %}
-            <p class="timestamp">{{item.createdAt}}</p>
+            <p class="timestamp">Posted by {{item.seller.username}} at {{item.createdAt}}</p>
         </div>
     </div>
 </div>

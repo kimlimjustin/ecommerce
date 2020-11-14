@@ -218,10 +218,55 @@ def remove_from_cart(request):
         return JsonResponse({"message": "Success"})
         
 def dashboard(request):
-    items = Items.objects.filter(seller = request.user)
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('login'))
+    items = Items.objects.filter(seller = request.user) #Items that the user is selling
     return render(request, "index/dashboard.html", {
         "items": items
     })
+
+def setting(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('login'))
+    return render(request, "index/setting.html")
+
+def edit_account(request):
+    if not request.user.is_authenticated:
+        return HttpResponseReditect(reverse('login'))
+    if request.method == "POST":
+        user = User.objects.get(pk = request.user.pk)
+        #edit user's username and email
+        user.username = request.POST["username"]
+        user.email = request.POST["email"]
+        user.save()
+        login(request, user)
+        return HttpResponseRedirect(reverse('setting'))
+    return render(request, "index/edit_account.html")
+
+def change_password(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('login'))
+    if request.method == "POST":
+        user = User.objects.get(pk = request.user.pk)
+        old_password = request.POST["old_password"]
+        password = request.POST["password"]
+        confirmation = request.POST["confirmation"]
+        if password != confirmation:
+            return render(request, "index/change_password.html", {
+                "message": "Passwords must match."
+            })
+        # confirm if the old passwords match
+        authentication = authenticate(request, username = request.user.username, password = old_password)
+        if not authentication:
+            return render(request, "index/change_password.html", {
+                "message": "Old password doesn't match."
+            })
+        else:
+            user.set_password(password)
+            user.save()
+            login(request, user)
+            return HttpResponseRedirect(reverse('setting'))
+    return render(request, "index/change_password.html")
 
 #Error 404 page
 def FourZeroFour(request):

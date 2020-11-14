@@ -100,6 +100,10 @@
     color: #000;
 }
 
+.setting-title{
+    font-family: "Montserrat";
+}
+
 @media only screen and (max-width: 768px){
     .nav-pp-alt{
         display: block;

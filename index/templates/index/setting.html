@@ -1,0 +1,16 @@
+{% extends 'index/layout.html' %}
+{% block title %}
+Account setting | ecommerce
+{% endblock %}
+{% block body %}
+<div class="container">
+    <h1 class="setting-title">Your user account:</h1>
+    <div class="box box-shadow margin-top-bottom">
+        <p class="text-label">Username: {{user.username}}</p>
+        <p class="text-label">Email: {{user.email}}</p>
+        <p class="text-label">Password: 【your password】</p>
+        <p class="text-blur"><a href = "{% url 'edit_account' %}" class="link">Edit account</a></p>
+        <p class="text-blur"><a href = "{% url 'change_password' %}" class="link">Change password</a></p>
+    </div>
+</div>
+{% endblock %}
