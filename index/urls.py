@@ -16,6 +16,7 @@ urlpatterns = [
      path('unlike', views.unlike, name="unlike"),
      path('cart/add', views.add_to_cart, name="add_to_cart"),
      path('cart/remove', views.remove_from_cart, name="remove_from_cart"),
+     path('dashboard', views.dashboard, name="dashboard"),
      #Error handling
      path('404', views.FourZeroFour, name="404")
 ]

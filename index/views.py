@@ -217,6 +217,12 @@ def remove_from_cart(request):
         user.save()
         return JsonResponse({"message": "Success"})
         
+def dashboard(request):
+    items = Items.objects.filter(seller = request.user)
+    return render(request, "index/dashboard.html", {
+        "items": items
+    })
+
 #Error 404 page
 def FourZeroFour(request):
     return render(request, "error/404.html")
