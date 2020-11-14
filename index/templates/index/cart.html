@@ -1,3 +1,22 @@
 {% extends 'index/layout.html' %}
 {% block body %}
+<div class="container">
+    <h1 class="cart-title">Your shopping cart:</h1>
+    <h4>Total: ${{total_price}}</h4>
+    {% if items.count > 0 %}
+    {% for i in items %}
+    <div class="col-4">
+        <div class="cart-item-box">
+            <div class="box box-shadow">
+                <a class="cart-link" href = "{% url 'item' i.pk %}"><h1 class="box-title">{{i.name}}</h1></a>
+                <a href = "{{i.image.url}}"><img src = "{{i.image.url}}" class="cart-item-img" alt = "{{i.name}}"></a>
+                <h3>Price: ${{i.price}}</h3>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <h4>There's nothing inside your shopping cart. <a href="{% url 'index' %}" class="link">Go back</a></h4>
+    {% endif %}
+</div>
 {% endblock %}

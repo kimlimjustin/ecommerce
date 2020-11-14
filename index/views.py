@@ -170,7 +170,14 @@ def unlike(request):
         return JsonResponse({"message": "Success"})
 
 def cart(request):
-    return render(request, "index/cart.html")
+    items = request.user.cart.all()
+    total_price = 0
+    for i in items:
+        total_price += i.price
+    return render(request, "index/cart.html", {
+        "items": items,
+        "total_price": total_price
+    })
 
 def add_to_cart(request):
     if not request.user.is_authenticated:

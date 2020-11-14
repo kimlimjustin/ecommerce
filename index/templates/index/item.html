@@ -24,11 +24,13 @@
             <h4><span id="total_like">{{total_like}}</span> {% if total_like < 2 %}like{% else %}likes{% endif %}</h4>
             <h2>${{item.price}}</h2>
             <p class="box-text">{{item.description}}</p>
+            {% if item.seller == user %}
             <h4><a class="link" href="{% url 'edit_item' item.id %}">Edit item</a></h4>
             <form action = "{% url 'delete_item' item.id %}" id="delete_form" method ="POST">
                 {% csrf_token %}
                 <h4 id="delete_form_submit"><a class="link text-danger" href="javascript:void(0)">Delete</a></h4>
             </form>
+            {% endif %}
             <p class="timestamp">{{item.createdAt}}</p>
         </div>
     </div>

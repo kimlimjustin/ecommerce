@@ -29,7 +29,7 @@
     cursor: pointer;
 }
 .nav-pp{
-    width: 20px;
+    width: 30px;
 }
 
 .nav-pp-alt{
@@ -44,6 +44,7 @@
 .nav-home{
     font-weight: bold;
     font-family: "Poppins";
+    font-size: 20px;
 }
 .input-username{
     text-transform: lowercase;
@@ -79,6 +80,23 @@
 
 .hidden{
     display: none;
+}
+
+.cart-title{
+    font-family: "Montserrat";
+}
+
+.cart-item-img{
+    width: 100%;
+    height: 30vh;
+}
+
+.cart-item-box{
+    margin: 20px;
+}
+
+.cart-link{
+    color: #000;
 }
 
 @media only screen and (max-width: 768px){
