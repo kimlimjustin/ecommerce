@@ -11,15 +11,19 @@
         <span class="hidden" id="item-id">{{item.id}}</span>
         <a href="{{item.image.url}}"><img src = "{{item.image.url}}" class="item-image"></a>    
         <div class="item-info">
-            {% if liked %}
-            <img src = "{% static 'Icon/loved.png' %}" alt="Unlike" class="item-option" id="love-icon" title = "Unlike">
-            {% else %}
-            <img src = "{% static 'Icon/love.png' %}" alt="Like" class="item-option" id="love-icon" title = "Like"> 
-            {% endif %}
-            {% if not saved %}
-            <img src = "{% static 'Icon/cart.jpg' %}" alt = "Add to cart" class="item-option" id = "cart-icon" title = "Add to cart">
-            {% else %}
-            <img src = "{% static 'Icon/remove_cart.png' %}" alt = "Remove from cart" class="item-option" id = "cart-icon" title = "Remove from cart">
+            {% if user.is_authenticated %}
+                {% if liked %}
+                <img src = "{% static 'Icon/loved.png' %}" alt="Unlike" class="item-option" id="love-icon" title = "Unlike">
+                {% else %}
+                <img src = "{% static 'Icon/love.png' %}" alt="Like" class="item-option" id="love-icon" title = "Like"> 
+                {% endif %}
+                {% if item.seller != user %}
+                    {% if not saved %}
+                    <img src = "{% static 'Icon/cart.jpg' %}" alt = "Add to cart" class="item-option" id = "cart-icon" title = "Add to cart">
+                    {% else %}
+                    <img src = "{% static 'Icon/remove_cart.png' %}" alt = "Remove from cart" class="item-option" id = "cart-icon" title = "Remove from cart">
+                    {% endif %}
+                {% endif %}
             {% endif %}
             <h4><span id="total_like">{{total_like}}</span> {% if total_like < 2 %}like{% else %}likes{% endif %}</h4>
             <h2>${{item.price}}</h2>

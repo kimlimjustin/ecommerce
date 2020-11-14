@@ -8,7 +8,10 @@ import json
 
 #Home page
 def index(request):
-    return render(request, "index/index.html")
+    items = Items.objects.all().order_by('-id')[:10]
+    return render(request, "index/index.html", {
+        "items": items
+    })
 
 def login_view(request):
     #Check if the user is logged in
@@ -86,9 +89,11 @@ def item(request, id):
         #404 Item not found.
         return HttpResponseRedirect(reverse('404'))
     else: item = item[0]
-    liked = item.likes.filter(pk = request.user.pk).count() > 0
+    liked, saved = None, None
     total_like = item.likes.all().count()
-    saved = request.user.cart.filter(pk = item.pk).count() > 0
+    if request.user.is_authenticated:
+        liked = item.likes.filter(pk = request.user.pk).count() > 0
+        saved = request.user.cart.filter(pk = item.pk).count() > 0
     return render(request, "index/item.html", {
         "item": item,
         "liked": liked,
@@ -139,7 +144,7 @@ def delete_item(request, id):
 # Like api
 def like(request):
     if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse('login'))
+        return JsonResponse({"message": "Permission denied."}, status = 403)
     data = json.loads(request.body)
     item = Items.objects.filter(id = data["id"])
     if item.count() == 0:
@@ -157,7 +162,7 @@ def like(request):
 # Unlike api
 def unlike(request):
     if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse('login'))
+        return JsonResponse({"message": "Permission denied."}, status = 403)
     data = json.loads(request.body)
     item = Items.objects.filter(id = data["id"])
     if item.count() == 0:
@@ -181,7 +186,7 @@ def cart(request):
 
 def add_to_cart(request):
     if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse('login'))
+        return JsonResponse({"message": "Permission denied."}, status = 403)
     data = json.loads(request.body)
     item = Items.objects.filter(id = data["id"])
     if item.count() == 0:
@@ -189,14 +194,17 @@ def add_to_cart(request):
         return HttpResponseRedirect(reverse('404'))
     else: item = item[0]
     if request.method == "POST":
-        user = User.objects.get(pk = request.user.pk)
-        user.cart.add(item)
-        user.save()
-        return JsonResponse({"message": "Success"})
+        if request.user != item.seller:
+            user = User.objects.get(pk = request.user.pk)
+            user.cart.add(item)
+            user.save()
+            return JsonResponse({"message": "Success"})
+        else:
+            return JsonResponse({"message": "You cannot buy your own item"})
 
 def remove_from_cart(request):
     if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse('login'))
+        return JsonResponse({"message": "Permission denied."}, status = 403)
     data = json.loads(request.body)
     item = Items.objects.filter(id = data["id"])
     if item.count() == 0:

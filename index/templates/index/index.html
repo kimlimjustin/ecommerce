@@ -1,6 +1,14 @@
 {% extends 'index/layout.html' %}
 {% block body %}
 <div class="container">
-    <p>Home page</p>
+    <div class="margin-top-bottom">
+        {% for i in items %}
+            <div class="box box-shadow margin-top-bottom">
+                <a class="cart-link" href = "{% url 'item' i.pk %}"><h1 class="box-title">{{i.name}}</h1></a>
+                <a href = "{{i.image.url}}"><img src = "{{i.image.url}}" class="item-image" alt = "{{i.name}}"></a>
+                <h3>Price: ${{i.price}}</h3>
+            </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}
