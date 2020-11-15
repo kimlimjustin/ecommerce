@@ -175,6 +175,8 @@ def unlike(request):
         return JsonResponse({"message": "Success"})
 
 def cart(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('login'))
     items = request.user.cart.all()
     total_price = 0
     for i in items:
